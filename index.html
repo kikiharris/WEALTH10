@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wealth 10.0 — Credit Intelligence</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<style>
+  :root {
+    --dark: #070a0f;
+    --cyan: #00f5ff;
+    --cyan-dim: rgba(0,245,255,0.15);
+    --cyan-glow: rgba(0,245,255,0.4);
+    --gold: #ffc533;
+    --gold-dim: rgba(255,197,51,0.15);
+    --green: #00ff88;
+    --green-dim: rgba(0,255,136,0.15);
+    --red: #ff3860;
+    --red-dim: rgba(255,56,96,0.15);
+    --border: rgba(0,245,255,0.2);
+    --text: #e0f0ff;
+    --text-dim: rgba(224,240,255,0.5);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    background: var(--dark);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image:
+      linear-gradient(rgba(0,245,255,0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0,245,255,0.03) 1px, transparent 1px);
+    background-size: 40px 40px;
+    pointer-events: none; z-index: 0;
+  }
+  body::after {
+    content: '';
+    position: fixed; top: -200px; left: 0; right: 0; height: 200px;
+    background: linear-gradient(transparent, rgba(0,245,255,0.04), transparent);
+    animation: scanline 8s linear infinite;
+    pointer-events: none; z-index: 0;
+  }
+  @keyframes scanline { 0% { top:-200px; } 100% { top:100vh; } }
+
+  /* ── TOP BAR ── */
+  .logo-bar {
+    position: fixed; top:0; left:0; right:0;
+    padding: 18px 40px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: rgba(7,10,15,0.9);
+    backdrop-filter: blur(12px);
+    z-index: 100;
+  }
+  .logo-name {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.2rem; font-weight: 900;
+    color: var(--cyan); letter-spacing: 3px;
+    text-shadow: 0 0 20px var(--cyan-glow);
+  }
+  .logo-tag { font-size:0.75rem; letter-spacing:3px; color:var(--gold); text-transform:uppercase; }
+
+  /* ── LANDING ── */
+  #landing {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    padding: 40px 20px;
+  }
+  .hero-content { text-align: center; max-width: 680px; }
+  .hero-badge {
+    display: inline-block; padding: 6px 18px;
+    border: 1px solid var(--cyan); border-radius: 2px;
+    font-size: 0.7rem; letter-spacing: 4px;
+    color: var(--cyan); text-transform: uppercase; margin-bottom: 28px;
+    animation: pulseBorder 3s ease-in-out infinite;
+  }
+  @keyframes pulseBorder {
+    0%,100% { box-shadow: 0 0 0 var(--cyan-glow); }
+    50% { box-shadow: 0 0 18px var(--cyan-glow), inset 0 0 15px rgba(0,245,255,0.05); }
+  }
+  .hero-title {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(2.8rem,6vw,5rem); font-weight: 900; line-height: 1.1;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #fff 30%, var(--cyan) 70%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+  }
+  .hero-version {
+    font-family: 'Orbitron', monospace;
+    font-size: clamp(2.8rem,6vw,5rem); font-weight: 900; line-height: 1.1;
+    color: var(--gold); text-shadow: 0 0 40px rgba(255,197,51,0.5);
+    margin-bottom: 24px; display: block; -webkit-text-fill-color: var(--gold);
+  }
+  .hero-sub {
+    font-size: 1.15rem; color: var(--text-dim);
+    line-height: 1.7; margin-bottom: 48px; letter-spacing: 0.5px;
+  }
+  .upload-container { width: 100%; max-width: 540px; margin: 0 auto; }
+  .upload-label { font-size:0.75rem; letter-spacing:4px; color:var(--cyan); text-transform:uppercase; margin-bottom:14px; display:block; }
+  .upload-box {
+    border: 2px dashed rgba(0,245,255,0.3); border-radius: 6px;
+    padding: 48px 32px; text-align: center; cursor: pointer;
+    transition: all 0.3s ease; background: rgba(0,245,255,0.02);
+  }
+  .upload-box:hover, .upload-box.dragover {
+    border-color: var(--cyan); background: rgba(0,245,255,0.06);
+    box-shadow: 0 0 30px rgba(0,245,255,0.1), inset 0 0 30px rgba(0,245,255,0.03);
+  }
+  .upload-icon {
+    width:56px; height:56px; margin:0 auto 16px;
+    border: 2px solid var(--cyan); border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 0 20px var(--cyan-glow);
+    animation: iconPulse 2.5s ease-in-out infinite;
+  }
+  @keyframes iconPulse {
+    0%,100% { box-shadow:0 0 10px var(--cyan-glow); }
+    50% { box-shadow:0 0 25px var(--cyan-glow),0 0 50px rgba(0,245,255,0.1); }
+  }
+  .upload-icon svg { color: var(--cyan); }
+  .upload-title { font-family:'Orbitron',monospace; font-size:0.95rem; font-weight:700; color:var(--text); margin-bottom:8px; letter-spacing:1px; }
+  .upload-sub { font-size:0.9rem; color:var(--text-dim); margin-bottom:20px; }
+  .upload-btn {
+    display:inline-block; padding:12px 32px;
+    background:linear-gradient(135deg,var(--cyan) 0%,#0090aa 100%);
+    color:#000; font-family:'Orbitron',monospace;
+    font-size:0.75rem; font-weight:700; letter-spacing:2px;
+    border:none; border-radius:3px; cursor:pointer;
+    transition:all 0.2s ease; text-transform:uppercase;
+  }
+  .upload-btn:hover { transform:translateY(-2px); box-shadow:0 8px 25px rgba(0,245,255,0.4); }
+  #fileInput { display:none; }
+  .file-selected {
+    margin-top:14px; padding:10px 16px;
+    background:var(--cyan-dim); border:1px solid var(--border);
+    border-radius:4px; font-size:0.85rem; color:var(--cyan);
+    display:none; align-items:center; gap:8px;
+  }
+  .analyze-btn {
+    width:100%; margin-top:20px; padding:16px;
+    background:transparent; border:2px solid var(--gold);
+    color:var(--gold); font-family:'Orbitron',monospace;
+    font-size:0.85rem; font-weight:700; letter-spacing:3px;
+    text-transform:uppercase; cursor:pointer; border-radius:4px;
+    transition:all 0.3s ease; display:none; position:relative; overflow:hidden;
+  }
+  .analyze-btn:hover { box-shadow:0 0 30px rgba(255,197,51,0.3); transform:translateY(-2px); }
+  .trust-badges { display:flex; justify-content:center; gap:28px; margin-top:28px; flex-wrap:wrap; }
+  .badge { display:flex; align-items:center; gap:6px; font-size:0.78rem; color:var(--text-dim); letter-spacing:1px; }
+  .badge-dot {
+    width:6px; height:6px; border-radius:50%;
+    background:var(--green); box-shadow:0 0 8px var(--green);
+    animation:blink 2s ease-in-out infinite;
+  }
+  @keyframes blink { 0%,100%{opacity:1;}50%{opacity:0.4;} }
+  .error-box {
+    background:rgba(255,56,96,0.08); border:1px solid rgba(255,56,96,0.3);
+    border-radius:6px; padding:16px 20px; color:#ff6b85;
+    font-size:0.88rem; margin-top:14px; display:none; line-height:1.6;
+  }
+
+  /* ── LOADING ── */
+  #loading {
+    display:none; position:fixed; inset:0; background:var(--dark);
+    z-index:200; align-items:center; justify-content:center;
+    flex-direction:column; gap:20px;
+  }
+  .loading-ring {
+    width:80px; height:80px; border-radius:50%;
+    border:3px solid transparent;
+    border-top-color:var(--cyan); border-right-color:var(--gold);
+    animation:spin 1.2s linear infinite;
+    box-shadow:0 0 30px var(--cyan-glow);
+  }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .loading-title { font-family:'Orbitron',monospace; font-size:0.85rem; letter-spacing:3px; color:var(--cyan); animation:textPulse 1.5s ease-in-out infinite; }
+  .loading-sub { font-size:0.85rem; color:var(--text-dim); letter-spacing:2px; }
+  @keyframes textPulse { 0%,100%{opacity:1;}50%{opacity:0.5;} }
+
+  /* ── RESULTS ── */
+  #results {
+    display:none; position:relative; z-index:1;
+    padding:100px 20px 60px; max-width:860px; margin:0 auto;
+    animation:fadeUp 0.6s ease forwards;
+  }
+  @keyframes fadeUp { from{opacity:0;transform:translateY(30px);}to{opacity:1;transform:translateY(0);} }
+
+  .section-card {
+    background:rgba(13,17,23,0.95); border:1px solid var(--border);
+    border-radius:8px; padding:32px; margin-bottom:24px;
+    position:relative; overflow:hidden; transition:border-color 0.3s ease;
+  }
+  .section-card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:2px;
+    background:linear-gradient(90deg,transparent,var(--cyan),transparent); opacity:0.6;
+  }
+  .section-card:hover { border-color:rgba(0,245,255,0.35); }
+  .section-number { font-family:'Orbitron',monospace; font-size:0.6rem; letter-spacing:3px; color:var(--text-dim); text-transform:uppercase; margin-bottom:6px; }
+  .section-title {
+    font-family:'Orbitron',monospace; font-size:1rem; font-weight:700;
+    letter-spacing:2px; color:var(--cyan); text-transform:uppercase;
+    margin-bottom:24px; padding-bottom:14px; border-bottom:1px solid var(--border);
+    display:flex; align-items:center; gap:10px;
+  }
+  .section-icon {
+    width:28px; height:28px; border:1px solid var(--cyan); border-radius:4px;
+    display:flex; align-items:center; justify-content:center; font-size:0.75rem;
+    box-shadow:0 0 10px rgba(0,245,255,0.2);
+  }
+  .report-header-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; }
+  .header-item { background:rgba(0,245,255,0.04); border:1px solid var(--border); border-radius:6px; padding:14px 18px; }
+  .header-item-label { font-size:0.65rem; letter-spacing:3px; color:var(--text-dim); text-transform:uppercase; margin-bottom:6px; }
+  .header-item-value { font-family:'Orbitron',monospace; font-size:0.85rem; font-weight:600; color:var(--text); }
+  .breakdown-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:14px; }
+  .breakdown-item { background:rgba(0,0,0,0.4); border:1px solid var(--border); border-radius:6px; padding:18px; }
+  .breakdown-item-header { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:8px; }
+  .breakdown-metric-name { font-size:0.7rem; letter-spacing:2px; text-transform:uppercase; color:var(--text-dim); font-weight:600; }
+  .breakdown-value { font-family:'Orbitron',monospace; font-size:1.1rem; font-weight:700; color:var(--text); margin-bottom:6px; }
+  .status-pill { display:inline-block; padding:3px 10px; border-radius:2px; font-size:0.65rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; font-family:'Orbitron',monospace; }
+  .status-excellent { background:rgba(0,255,136,0.15); color:#00ff88; border:1px solid rgba(0,255,136,0.3); }
+  .status-good { background:rgba(0,245,255,0.12); color:var(--cyan); border:1px solid rgba(0,245,255,0.25); }
+  .status-moderate { background:rgba(255,197,51,0.12); color:var(--gold); border:1px solid rgba(255,197,51,0.25); }
+  .status-weak { background:rgba(255,149,0,0.12); color:#ff9500; border:1px solid rgba(255,149,0,0.25); }
+  .status-needs { background:rgba(255,56,96,0.12); color:#ff3860; border:1px solid rgba(255,56,96,0.25); }
+  .breakdown-interpretation { font-size:0.82rem; color:var(--text-dim); line-height:1.6; margin-top:8px; }
+  .funding-range-display {
+    text-align:center; padding:28px 0;
+    border:1px solid rgba(255,197,51,0.2); border-radius:6px;
+    background:linear-gradient(135deg,rgba(255,197,51,0.05),transparent);
+    margin-bottom:16px;
+  }
+  .funding-label { font-size:0.65rem; letter-spacing:4px; color:var(--text-dim); text-transform:uppercase; margin-bottom:12px; }
+  .funding-amount { font-family:'Orbitron',monospace; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:900; color:var(--gold); text-shadow:0 0 30px rgba(255,197,51,0.5); }
+  .funding-note { font-size:0.88rem; color:var(--text-dim); line-height:1.7; text-align:center; max-width:500px; margin:0 auto; }
+  .phase-display { display:flex; align-items:flex-start; gap:24px; flex-wrap:wrap; }
+  .phase-badge-large {
+    flex-shrink:0; width:100px; height:100px; border:2px solid var(--gold);
+    border-radius:8px; display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    background:var(--gold-dim); box-shadow:0 0 25px rgba(255,197,51,0.2);
+  }
+  .phase-number-big { font-family:'Orbitron',monospace; font-size:2rem; font-weight:900; color:var(--gold); line-height:1; }
+  .phase-word { font-size:0.6rem; letter-spacing:2px; color:var(--gold); text-transform:uppercase; }
+  .phase-name-large { font-family:'Orbitron',monospace; font-size:1.6rem; font-weight:900; letter-spacing:3px; margin-bottom:10px; }
+  .phase-explanation { font-size:0.92rem; color:var(--text-dim); line-height:1.8; }
+  .reasons-list, .steps-list { list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .reasons-list li, .steps-list li {
+    display:flex; align-items:flex-start; gap:12px;
+    font-size:0.92rem; color:var(--text-dim); line-height:1.6;
+    padding:10px 14px; background:rgba(0,0,0,0.3);
+    border:1px solid var(--border); border-radius:4px;
+  }
+  .li-icon { flex-shrink:0; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.65rem; font-weight:900; margin-top:2px; }
+  .li-icon-reason { background:rgba(0,245,255,0.15); color:var(--cyan); border:1px solid rgba(0,245,255,0.3); }
+  .li-icon-step { background:rgba(255,197,51,0.15); color:var(--gold); border:1px solid rgba(255,197,51,0.3); }
+  .eligibility-display { text-align:center; padding:36px 24px; border-radius:6px; }
+  .elig-eligible { border:2px solid var(--green); background:var(--green-dim); box-shadow:0 0 40px rgba(0,255,136,0.1); }
+  .elig-conditional { border:2px solid var(--gold); background:var(--gold-dim); box-shadow:0 0 40px rgba(255,197,51,0.1); }
+  .elig-not { border:2px solid var(--red); background:var(--red-dim); box-shadow:0 0 40px rgba(255,56,96,0.1); }
+  .elig-icon { font-size:2.5rem; margin-bottom:14px; }
+  .elig-status-text { font-family:'Orbitron',monospace; font-size:1.3rem; font-weight:900; letter-spacing:3px; margin-bottom:10px; }
+  .elig-eligible .elig-status-text { color:var(--green); text-shadow:0 0 20px rgba(0,255,136,0.4); }
+  .elig-conditional .elig-status-text { color:var(--gold); text-shadow:0 0 20px rgba(255,197,51,0.4); }
+  .elig-not .elig-status-text { color:var(--red); text-shadow:0 0 20px rgba(255,56,96,0.4); }
+  .elig-note { font-size:0.9rem; color:var(--text-dim); line-height:1.7; max-width:480px; margin:0 auto; }
+  .reset-btn {
+    display:block; width:100%; max-width:300px; margin:20px auto 0; padding:14px;
+    background:transparent; border:1px solid var(--border); color:var(--text-dim);
+    font-family:'Orbitron',monospace; font-size:0.75rem; letter-spacing:2px;
+    text-transform:uppercase; cursor:pointer; border-radius:4px; transition:all 0.3s ease;
+  }
+  .reset-btn:hover { border-color:var(--cyan); color:var(--cyan); box-shadow:0 0 15px rgba(0,245,255,0.1); }
+  @media(max-width:600px){
+    .phase-display{flex-direction:column;align-items:center;text-align:center;}
+    .section-card{padding:22px 18px;}
+    .breakdown-grid{grid-template-columns:1fr;}
+    .logo-bar{padding:14px 20px;}
+  }
+</style>
+</head>
+<body>
+
+<div class="logo-bar">
+  <div class="logo-name">WEALTH</div>
+  <div class="logo-tag">Credit Intelligence</div>
+  <div class="logo-name" style="font-size:0.9rem;color:var(--gold);text-shadow:0 0 15px rgba(255,197,51,0.5);">10.0</div>
+</div>
+
+<!-- LANDING -->
+<div id="landing">
+  <div class="hero-content">
+    <div class="hero-badge">AI-Powered Credit Analysis</div>
+    <h1 class="hero-title">WEALTH</h1>
+    <span class="hero-version">10.0</span>
+    <p class="hero-sub">Upload your credit report and receive an intelligent breakdown of your funding potential, phase placement, and personalized roadmap.</p>
+
+    <div class="upload-container">
+      <span class="upload-label">// Upload Credit Report</span>
+      <div class="upload-box" id="uploadBox">
+        <div class="upload-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="17 8 12 3 7 8"/>
+            <line x1="12" y1="3" x2="12" y2="15"/>
+          </svg>
+        </div>
+        <div class="upload-title">Drop Your Credit Report Here</div>
+        <div class="upload-sub">Experian preferred · Also supports TransUnion & Equifax</div>
+        <button class="upload-btn" onclick="document.getElementById('fileInput').click()">Select PDF</button>
+        <input type="file" id="fileInput" accept=".pdf" />
+      </div>
+
+      <div class="file-selected" id="fileSelected">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        <span id="fileName">report.pdf</span>
+      </div>
+
+      <div class="error-box" id="errorBox"></div>
+
+      <button class="analyze-btn" id="analyzeBtn" onclick="analyzeReport()">
+        ⚡ &nbsp;Analyze My Credit Profile
+      </button>
+
+      <div class="trust-badges">
+        <div class="badge"><div class="badge-dot"></div> Encrypted</div>
+        <div class="badge"><div class="badge-dot"></div> No Data Stored</div>
+        <div class="badge"><div class="badge-dot"></div> Instant Results</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div id="loading">
+  <div class="loading-ring"></div>
+  <div class="loading-title" id="loadingTitle">READING REPORT</div>
+  <div class="loading-sub" id="loadingSub">Extracting credit data...</div>
+</div>
+
+<!-- RESULTS -->
+<div id="results"></div>
+
+<script>
+  pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+  let selectedFile = null;
+
+  const uploadBox  = document.getElementById('uploadBox');
+  const fileInput  = document.getElementById('fileInput');
+  const fileSelected = document.getElementById('fileSelected');
+  const fileNameEl = document.getElementById('fileName');
+  const analyzeBtn = document.getElementById('analyzeBtn');
+  const errorBox   = document.getElementById('errorBox');
+
+  uploadBox.addEventListener('dragover', e => { e.preventDefault(); uploadBox.classList.add('dragover'); });
+  uploadBox.addEventListener('dragleave', () => uploadBox.classList.remove('dragover'));
+  uploadBox.addEventListener('drop', e => {
+    e.preventDefault(); uploadBox.classList.remove('dragover');
+    const f = e.dataTransfer.files[0];
+    if (f && f.type === 'application/pdf') handleFile(f);
+    else showError('Please upload a PDF credit report.');
+  });
+  fileInput.addEventListener('change', e => { if (e.target.files[0]) handleFile(e.target.files[0]); });
+
+  function handleFile(file) {
+    selectedFile = file;
+    fileNameEl.textContent = file.name;
+    fileSelected.style.display = 'flex';
+    analyzeBtn.style.display = 'block';
+    errorBox.style.display = 'none';
+  }
+
+  function showError(msg) { errorBox.textContent = msg; errorBox.style.display = 'block'; }
+  function setLoading(t, s) { document.getElementById('loadingTitle').textContent = t; document.getElementById('loadingSub').textContent = s; }
+
+  async function extractPDFText(file) {
+    const buf = await file.arrayBuffer();
+    const pdf = await pdfjsLib.getDocument({ data: buf }).promise;
+    let text = '';
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      text += `\n--- Page ${i} ---\n` + content.items.map(it => it.str).join(' ');
+    }
+    return text;
+  }
+
+  async function analyzeReport() {
+    if (!selectedFile) return;
+    errorBox.style.display = 'none';
+    document.getElementById('landing').style.display = 'none';
+    document.getElementById('loading').style.display = 'flex';
+
+    try {
+      setLoading('READING REPORT', 'Extracting credit data from PDF...');
+      const pdfText = await extractPDFText(selectedFile);
+
+      if (!pdfText || pdfText.trim().length < 100) {
+        throw new Error('Could not read text from this PDF. Make sure it is a text-based credit report, not a scanned image.');
+      }
+
+      setLoading('ANALYZING PROFILE', 'Running credit intelligence engine...');
+
+      // Call our secure backend — API key never touches the browser
+      const res = await fetch('/api/analyze', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ pdfText, fileName: selectedFile.name })
+      });
+
+      const report = await res.json();
+      if (!res.ok) throw new Error(report.error || 'Server error');
+
+      renderResults(report, selectedFile.name);
+
+    } catch (err) {
+      document.getElementById('loading').style.display = 'none';
+      document.getElementById('landing').style.display = 'flex';
+      showError('Analysis failed: ' + err.message);
+    }
+  }
+
+  function statusClass(s) {
+    const v = (s||'').toLowerCase();
+    if (v.includes('excellent')) return 'status-excellent';
+    if (v.includes('good')) return 'status-good';
+    if (v.includes('moderate')) return 'status-moderate';
+    if (v.includes('weak')) return 'status-weak';
+    return 'status-needs';
+  }
+
+  function renderResults(r, uploadedName) {
+    document.getElementById('loading').style.display = 'none';
+    const h  = r.header || {};
+    const cb = r.creditBreakdown || {};
+    const ef = r.estimatedFunding || {};
+    const ph = r.phase || {};
+    const pe = r.programEligibility || {};
+
+    const phaseColorMap = { Build:'var(--red)', Optimize:'var(--gold)', Funding:'var(--green)' };
+    const pc = phaseColorMap[ph.name] || 'var(--gold)';
+
+    const metrics = [
+      { key:'score',          label:'Credit Score' },
+      { key:'revolvingLimits',label:'Revolving Limits' },
+      { key:'utilization',    label:'Utilization' },
+      { key:'bankMix',        label:'Bank Mix' },
+      { key:'loanLoad',       label:'Loan Load' },
+      { key:'profileDepth',   label:'Profile Depth' },
+    ];
+
+    const eligClass = (s => {
+      const v=(s||'').toLowerCase();
+      if(v.includes('not')||v.includes('ineligible')) return 'elig-not';
+      if(v.includes('conditional')) return 'elig-conditional';
+      return 'elig-eligible';
+    })(pe.status);
+
+    const eligIcon = (s => {
+      const v=(s||'').toLowerCase();
+      if(v.includes('not')||v.includes('ineligible')) return '✗';
+      if(v.includes('conditional')) return '◈';
+      return '✓';
+    })(pe.status);
+
+    document.getElementById('results').innerHTML = `
+      <!-- 01 HEADER -->
+      <div class="section-card">
+        <div class="section-number">// Section 01</div>
+        <div class="section-title"><div class="section-icon">📋</div>Report Header</div>
+        <div class="report-header-grid">
+          <div class="header-item"><div class="header-item-label">Client Name</div><div class="header-item-value">${h.userName||'—'}</div></div>
+          <div class="header-item"><div class="header-item-label">Report Date</div><div class="header-item-value">${h.date||'—'}</div></div>
+          <div class="header-item"><div class="header-item-label">Report Type</div><div class="header-item-value">${h.reportType||'—'}</div></div>
+          <div class="header-item"><div class="header-item-label">Bureau</div><div class="header-item-value">${h.bureau||'—'}</div></div>
+          <div class="header-item"><div class="header-item-label">File</div><div class="header-item-value" style="font-size:0.7rem">${uploadedName}</div></div>
+        </div>
+      </div>
+
+      <!-- 02 CREDIT BREAKDOWN -->
+      <div class="section-card">
+        <div class="section-number">// Section 02</div>
+        <div class="section-title"><div class="section-icon">📊</div>Credit Breakdown</div>
+        <div class="breakdown-grid">
+          ${metrics.map(m => {
+            const d = cb[m.key]||{};
+            return `<div class="breakdown-item">
+              <div class="breakdown-item-header">
+                <div class="breakdown-metric-name">${m.label}</div>
+                <span class="status-pill ${statusClass(d.status)}">${d.status||'—'}</span>
+              </div>
+              <div class="breakdown-value">${d.value||'—'}</div>
+              <div class="breakdown-interpretation">${d.interpretation||''}</div>
+            </div>`;
+          }).join('')}
+        </div>
+      </div>
+
+      <!-- 03 ESTIMATED FUNDING -->
+      <div class="section-card">
+        <div class="section-number">// Section 03</div>
+        <div class="section-title"><div class="section-icon">💰</div>Estimated Business Funding</div>
+        <div class="funding-range-display">
+          <div class="funding-label">Estimated Funding Range</div>
+          <div class="funding-amount">${ef.range||'—'}</div>
+        </div>
+        <p class="funding-note">${ef.note||''}</p>
+      </div>
+
+      <!-- 04 YOUR PHASE -->
+      <div class="section-card" style="border-color:${pc}33">
+        <div class="section-number">// Section 04</div>
+        <div class="section-title" style="color:${pc}"><div class="section-icon" style="border-color:${pc}">⬡</div>Your Phase</div>
+        <div class="phase-display">
+          <div class="phase-badge-large" style="border-color:${pc};box-shadow:0 0 25px ${pc}44;background:${pc}15">
+            <div class="phase-number-big" style="color:${pc}">${ph.number||''}</div>
+            <div class="phase-word" style="color:${pc}">Phase</div>
+          </div>
+          <div style="flex:1;min-width:200px">
+            <div class="phase-name-large" style="color:${pc};text-shadow:0 0 20px ${pc}66">${ph.name||'—'}</div>
+            <p class="phase-explanation">${ph.explanation||''}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 05 WHY THIS PHASE -->
+      <div class="section-card">
+        <div class="section-number">// Section 05</div>
+        <div class="section-title"><div class="section-icon">🔍</div>Why You Are In This Phase</div>
+        <ul class="reasons-list">
+          ${(r.phaseReasons||[]).map(reason=>`
+            <li><div class="li-icon li-icon-reason">◆</div><span>${reason}</span></li>`).join('')}
+        </ul>
+      </div>
+
+      <!-- 06 NEXT STEPS -->
+      <div class="section-card">
+        <div class="section-number">// Section 06</div>
+        <div class="section-title"><div class="section-icon">🚀</div>Next Steps</div>
+        <ul class="steps-list">
+          ${(r.nextSteps||[]).map((step,i)=>`
+            <li><div class="li-icon li-icon-step">${i+1}</div><span>${step}</span></li>`).join('')}
+        </ul>
+      </div>
+
+      <!-- 07 PROGRAM ELIGIBILITY -->
+      <div class="section-card">
+        <div class="section-number">// Section 07</div>
+        <div class="section-title"><div class="section-icon">✦</div>Program Eligibility</div>
+        <div class="eligibility-display ${eligClass}">
+          <div class="elig-icon">${eligIcon}</div>
+          <div class="elig-status-text">${pe.status||'—'}</div>
+          <p class="elig-note">${pe.note||''}</p>
+        </div>
+      </div>
+
+      <button class="reset-btn" onclick="resetApp()">← Analyze Another Report</button>
+    `;
+
+    document.getElementById('results').style.display = 'block';
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+
+  function resetApp() {
+    document.getElementById('results').style.display = 'none';
+    document.getElementById('results').innerHTML = '';
+    document.getElementById('landing').style.display = 'flex';
+    selectedFile = null;
+    fileSelected.style.display = 'none';
+    analyzeBtn.style.display = 'none';
+    fileInput.value = '';
+    errorBox.style.display = 'none';
+    window.scrollTo({ top:0, behavior:'smooth' });
+  }
+</script>
+</body>
+</html>
