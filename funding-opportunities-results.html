@@ -58,7 +58,11 @@ body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(
 /* Grant training coming soon */
 .grant-training{background:linear-gradient(135deg,rgba(0,230,118,0.06),rgba(0,229,255,0.03));border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:32px;text-align:center;margin-top:20px;position:relative;overflow:hidden;}
 .grant-training::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent);}
-.coming-soon-badge{display:inline-block;padding:4px 14px;background:rgba(0,230,118,0.12);border:1px solid rgba(0,230,118,0.3);border-radius:20px;font-size:0.65rem;font-weight:700;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:14px;}
+.grant-live-badge{display:inline-block;padding:4px 14px;background:rgba(0,230,118,0.15);border:1px solid rgba(0,230,118,0.4);border-radius:20px;font-size:0.65rem;font-weight:700;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:14px;box-shadow:0 0 10px rgba(0,230,118,0.2);}
+.video-wrap{position:relative;width:100%;max-width:680px;margin:0 auto;border-radius:10px;overflow:hidden;border:1px solid rgba(0,230,118,0.2);box-shadow:0 0 30px rgba(0,230,118,0.1);}
+.video-wrap::before{content:'';display:block;padding-top:56.25%;}
+.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;}
+.coming-soon-badge{display:none;}
 .grant-training-title{font-size:1.2rem;font-weight:700;color:var(--green);margin-bottom:12px;}
 .grant-training-desc{font-size:0.92rem;font-weight:300;color:var(--text-dim);line-height:1.8;max-width:520px;margin:0 auto 24px;}
 .notify-btn{padding:14px 36px;background:transparent;border:2px solid var(--green);color:var(--green);font-family:'Lexend',sans-serif;font-size:0.88rem;font-weight:600;letter-spacing:1px;border-radius:6px;cursor:pointer;transition:all 0.3s ease;}
@@ -384,12 +388,14 @@ window.addEventListener('DOMContentLoaded',()=>{
     </div>
     <div class="card-grid">${grants.map(g=>renderCard(g,'card-grant','badge-grant')).join('')}</div>`;
 
-  // Grant Training Coming Soon
+  // Grant Training Video
   html+=`<div class="grant-training">
-    <div class="coming-soon-badge">Coming Soon</div>
+    <div class="grant-live-badge">Now Available</div>
     <div class="grant-training-title">Grant Application Training</div>
-    <p class="grant-training-desc">We're currently building a step-by-step training to help you successfully apply for grants. This will walk you through how to position your business, avoid common mistakes, and increase your chances of being selected.</p>
-    <button class="notify-btn" onclick="showToast()">Get Notified When This Training Drops</button>
+    <p class="grant-training-desc">Watch this step-by-step training to learn how to successfully apply for grants — including how to position your business, avoid common mistakes, and increase your chances of being selected.</p>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/_ViPZoKIT0Y" title="Grant Application Training" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
   </div>`;
   html+=`</div>`;
 
