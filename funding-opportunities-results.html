@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Funding Opportunities — Wealth 10.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--dark:#070a0f;--cyan:#00e5ff;--cyan-dim:rgba(0,229,255,0.12);--cyan-glow:rgba(0,229,255,0.35);--gold:#ffbe33;--gold-dim:rgba(255,190,51,0.12);--green:#00e676;--green-dim:rgba(0,230,118,0.12);--red:#ff4d6a;--red-dim:rgba(255,77,106,0.12);--orange:#ff9100;--border:rgba(0,229,255,0.15);--border2:rgba(255,255,255,0.06);--text:#ddeeff;--text-dim:rgba(221,238,255,0.55);--text-muted:rgba(221,238,255,0.35);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--dark);color:var(--text);font-family:'Lexend',sans-serif;font-weight:400;min-height:100vh;overflow-x:hidden;line-height:1.6;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.025) 1px,transparent 1px);background-size:50px 50px;pointer-events:none;z-index:0;}
+.logo-bar{position:fixed;top:0;left:0;right:0;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(7,10,15,0.92);backdrop-filter:blur(16px);z-index:100;}
+.logo-name{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;color:var(--cyan);letter-spacing:4px;text-shadow:0 0 20px var(--cyan-glow);}
+.logo-tag{font-size:0.72rem;font-weight:500;letter-spacing:3px;color:var(--gold);text-transform:uppercase;}
+.logo-version{font-family:'Orbitron',monospace;font-size:0.95rem;font-weight:900;color:var(--gold);text-shadow:0 0 15px rgba(255,190,51,0.5);}
+.page-wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:110px 20px 60px;}
+.page-header{text-align:center;margin-bottom:48px;}
+.page-badge{display:inline-block;padding:6px 18px;border:1px solid var(--cyan);border-radius:2px;font-size:0.68rem;font-weight:600;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;margin-bottom:20px;}
+.page-title{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:700;color:var(--text);margin-bottom:14px;}
+.page-sub{font-size:0.95rem;font-weight:300;color:var(--text-dim);line-height:1.8;max-width:620px;margin:0 auto;}
+/* Section Headers */
+.results-section{margin-bottom:40px;}
+.results-section-header{display:flex;align-items:center;gap:14px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid var(--border2);}
+.results-section-icon{width:36px;height:36px;border:1px solid;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
+.results-section-title{font-size:1.05rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;}
+.section-loans .results-section-icon{border-color:var(--cyan);box-shadow:0 0 10px rgba(0,229,255,0.2);}
+.section-loans .results-section-title{color:var(--cyan);}
+.section-loc .results-section-icon{border-color:var(--gold);box-shadow:0 0 10px rgba(255,190,51,0.2);}
+.section-loc .results-section-title{color:var(--gold);}
+.section-grants .results-section-icon{border-color:var(--green);box-shadow:0 0 10px rgba(0,230,118,0.2);}
+.section-grants .results-section-title{color:var(--green);}
+/* Cards */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:16px;}
+.funding-card{background:rgba(13,17,23,0.97);border:1px solid var(--border2);border-radius:10px;padding:24px;position:relative;overflow:hidden;transition:border-color 0.3s ease;}
+.funding-card:hover{border-color:rgba(0,229,255,0.2);}
+.funding-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;opacity:0.6;}
+.card-loan::before{background:linear-gradient(90deg,transparent,var(--cyan),transparent);}
+.card-loc::before{background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.card-grant::before{background:linear-gradient(90deg,transparent,var(--green),transparent);}
+.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;gap:10px;}
+.card-name{font-size:1rem;font-weight:700;color:var(--text);}
+.card-type-badge{padding:3px 10px;border-radius:3px;font-size:0.6rem;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;white-space:nowrap;flex-shrink:0;}
+.badge-loan{background:var(--cyan-dim);color:var(--cyan);border:1px solid rgba(0,229,255,0.25);}
+.badge-loc{background:var(--gold-dim);color:var(--gold);border:1px solid rgba(255,190,51,0.25);}
+.badge-grant{background:var(--green-dim);color:var(--green);border:1px solid rgba(0,230,118,0.25);}
+.card-amount{font-family:'Orbitron',monospace;font-size:1.2rem;font-weight:700;color:var(--gold);margin-bottom:14px;text-shadow:0 0 15px rgba(255,190,51,0.3);}
+.card-rows{display:flex;flex-direction:column;gap:8px;margin-bottom:14px;}
+.card-row{display:flex;gap:8px;}
+.card-row-label{font-size:0.68rem;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text-muted);min-width:80px;flex-shrink:0;padding-top:1px;}
+.card-row-val{font-size:0.85rem;font-weight:300;color:var(--text-dim);line-height:1.5;}
+.card-why{background:rgba(0,0,0,0.3);border:1px solid var(--border2);border-radius:6px;padding:10px 14px;margin-bottom:12px;}
+.card-why-label{font-size:0.65rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--text-muted);margin-bottom:4px;}
+.card-why-text{font-size:0.84rem;font-weight:300;color:var(--text-dim);line-height:1.55;}
+.card-next{font-size:0.82rem;font-weight:500;color:var(--cyan);line-height:1.5;}
+/* Empty state */
+.empty-state{background:rgba(13,17,23,0.97);border:1px solid var(--border2);border-radius:10px;padding:32px;text-align:center;color:var(--text-dim);font-size:0.92rem;font-weight:300;line-height:1.7;}
+/* Grant training coming soon */
+.grant-training{background:linear-gradient(135deg,rgba(0,230,118,0.06),rgba(0,229,255,0.03));border:1px solid rgba(0,230,118,0.2);border-radius:10px;padding:32px;text-align:center;margin-top:20px;position:relative;overflow:hidden;}
+.grant-training::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--green),transparent);}
+.coming-soon-badge{display:inline-block;padding:4px 14px;background:rgba(0,230,118,0.12);border:1px solid rgba(0,230,118,0.3);border-radius:20px;font-size:0.65rem;font-weight:700;letter-spacing:2px;color:var(--green);text-transform:uppercase;margin-bottom:14px;}
+.grant-training-title{font-size:1.2rem;font-weight:700;color:var(--green);margin-bottom:12px;}
+.grant-training-desc{font-size:0.92rem;font-weight:300;color:var(--text-dim);line-height:1.8;max-width:520px;margin:0 auto 24px;}
+.notify-btn{padding:14px 36px;background:transparent;border:2px solid var(--green);color:var(--green);font-family:'Lexend',sans-serif;font-size:0.88rem;font-weight:600;letter-spacing:1px;border-radius:6px;cursor:pointer;transition:all 0.3s ease;}
+.notify-btn:hover{background:var(--green-dim);box-shadow:0 0 20px rgba(0,230,118,0.2);}
+/* Toast */
+.toast{position:fixed;bottom:32px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(13,17,23,0.98);border:1px solid var(--green);border-radius:8px;padding:14px 24px;font-size:0.88rem;font-weight:500;color:var(--green);opacity:0;transition:all 0.4s ease;z-index:999;pointer-events:none;white-space:nowrap;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+/* Action buttons */
+.action-btns{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:32px;}
+.back-btn{padding:14px 36px;background:transparent;border:1px solid var(--border2);color:var(--text-muted);font-family:'Lexend',sans-serif;font-size:0.82rem;font-weight:400;letter-spacing:1px;border-radius:6px;cursor:pointer;transition:all 0.3s ease;}
+.back-btn:hover{border-color:var(--cyan);color:var(--cyan);}
+@media(max-width:640px){.card-grid{grid-template-columns:1fr;}.logo-bar{padding:14px 20px;}}
+@media print{body::before{display:none;}.logo-bar{position:relative;}.action-btns,.notify-btn{display:none;}#results{padding:20px;}.funding-card{break-inside:avoid;}}
+</style>
+</head>
+<body>
+<div class="logo-bar">
+  <div class="logo-name">WEALTH</div>
+  <div class="logo-tag">Credit Intelligence Platform</div>
+  <div class="logo-version">10.0</div>
+</div>
+
+<div class="page-wrap">
+  <div class="page-header">
+    <div class="page-badge">Your Results</div>
+    <h1 class="page-title">Your Additional Funding Opportunities</h1>
+    <p class="page-sub">Based on your answers, here are the funding opportunities that may currently fit your business profile.</p>
+  </div>
+  <div id="resultsArea"></div>
+  <div class="action-btns">
+    <button class="back-btn" onclick="window.location.href='/'">← Back to Credit Analysis</button>
+  </div>
+</div>
+
+<div class="toast" id="toast">We'll notify you as soon as the grant training becomes available.</div>
+
+<script>
+function showToast(){
+  const t=document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),3500);
+}
+
+// ── MATCHING ENGINE ──
+function matchFunding(d){
+  const score=d.creditScore;
+  const deposits=d.monthlyDepositsNum;
+  const revenue=d.annualRevenueNum;
+  const tib=d.timeInBusinessNum;
+  const twoYears=d.business2Years==='yes';
+  const negItems=d.negativeCreditItems||[];
+  const hasNeg=negItems.length>0&&!negItems.includes('none');
+  const isWoman=d.gender==='woman';
+  const isUS=d.isUSBased==='yes';
+  const smallTown=d.smallTown==='yes';
+  const social=d.socialImpact==='yes';
+
+  const loans=[];
+  const loc=[];
+  const grants=[];
+  const additional=[];
+
+  // ── BUSINESS LOANS ──
+  if(score>=675&&deposits>=8000){
+    loans.push({
+      name:'Cardiff / Forward Financing',
+      type:'Business Loan',
+      estimatedAmount:'$5,000 – $300,000',
+      speed:'As fast as 24–48 hours',
+      requirements:'675+ credit score, $8,000+ monthly deposits',
+      whyFit:'Your credit score and monthly deposit volume may meet the core criteria for this lender pair.',
+      notes:'Cardiff and Forward Financing specialize in revenue-based lending. They weigh cash flow heavily.',
+      nextSteps:'Visit cardiff.com or forwardfinancing.com to begin a soft-pull pre-qualification.'
+    });
+  }
+  if(score>=675&&tib>=3){
+    loans.push({
+      name:'Bluevine / Fundbox',
+      type:'Business Loan',
+      estimatedAmount:'$1,000 – $250,000',
+      speed:'As fast as same day',
+      requirements:'675+ credit score, 3+ months in business',
+      whyFit:'Your time in business and credit profile may align with Bluevine and Fundbox lending criteria.',
+      notes:'Both lenders are fintech-friendly and ideal for businesses building their early credit history.',
+      nextSteps:'Check pre-qualification at bluevine.com or fundbox.com — no hard pull required to check.'
+    });
+  }
+
+  // ── LINES OF CREDIT ──
+  if(score>=700&&twoYears&&revenue>=100000){
+    loc.push({
+      name:'Bank of America Business Line of Credit',
+      type:'Line of Credit',
+      estimatedAmount:'$10,000 – $100,000',
+      speed:'1–2 weeks',
+      requirements:'700+ score, 2+ years, $100K+ revenue',
+      whyFit:'Your revenue and time in business may position you for Bank of America\'s business credit line.',
+      notes:'Bank of America prefers established businesses with consistent revenue history.',
+      nextSteps:'Visit bankofamerica.com/smallbusiness to explore your options and apply.'
+    });
+  }
+  if(score>=700&&twoYears&&!hasNeg){
+    loc.push({
+      name:'PNC Business Line of Credit',
+      type:'Line of Credit',
+      estimatedAmount:'$10,000 – $100,000',
+      speed:'1–2 weeks',
+      requirements:'700+ score, 2+ years, clean credit history',
+      whyFit:'Your clean credit profile and business tenure may be a strong match for PNC\'s criteria.',
+      notes:'PNC places significant emphasis on clean payment history when evaluating business credit.',
+      nextSteps:'Visit pnc.com/business to request a consultation or begin your application.'
+    });
+  }
+  if(score>=700&&tib>=6){
+    loc.push({
+      name:'Wells Fargo Business Line of Credit',
+      type:'Line of Credit',
+      estimatedAmount:'$5,000 – $150,000',
+      speed:'1–2 weeks',
+      requirements:'700+ score, 6+ months in business',
+      whyFit:'Your credit score and business history may qualify you for Wells Fargo\'s business credit line.',
+      notes:'Wells Fargo offers flexible terms and tends to be accessible for businesses 6+ months old.',
+      nextSteps:'Visit wellsfargo.com/biz to start the process or speak with a business banker.'
+    });
+  }
+  if(score>=660&&revenue>=36000){
+    loc.push({
+      name:'American Express Business Line of Credit',
+      type:'Line of Credit',
+      estimatedAmount:'$2,000 – $250,000',
+      speed:'As fast as same day',
+      requirements:'660+ score, $36K+ annual revenue',
+      whyFit:'Your credit score and revenue level may qualify you for the Amex Business Blueprint line.',
+      notes:'Amex Business Blueprint (formerly Kabbage) is known for flexible, fast access to credit.',
+      nextSteps:'Visit americanexpress.com/business/blueprint to check your eligibility.'
+    });
+  }
+  if(score>=700&&twoYears){
+    loc.push({
+      name:'Truist Business Line of Credit',
+      type:'Line of Credit',
+      estimatedAmount:'$10,000 – $100,000',
+      speed:'1–2 weeks',
+      requirements:'700+ score, 2+ years in business',
+      whyFit:'Your established business history and credit profile may be a fit for Truist\'s credit lines.',
+      notes:'Truist (formerly BB&T/SunTrust) works well for businesses in the Southeast and Mid-Atlantic regions.',
+      nextSteps:'Visit truist.com/business to schedule a meeting with a small business banker.'
+    });
+  }
+  if(twoYears){
+    loc.push({
+      name:'First Citizens Bank Business Line of Credit',
+      type:'Line of Credit',
+      estimatedAmount:'$5,000 – $50,000',
+      speed:'1–2 weeks',
+      requirements:'2+ years in business',
+      whyFit:'Your business tenure meets First Citizens\' core eligibility for a revolving credit line.',
+      notes:'First Citizens is community-bank friendly and often more flexible than major national banks.',
+      nextSteps:'Visit firstcitizens.com/business to find a local branch or apply online.'
+    });
+  }
+
+  // Additional option (credit hybrid)
+  if(score>=675){
+    additional.push({
+      name:'Credit Line Hybrid',
+      type:'Additional Option',
+      estimatedAmount:'$10,000 – $150,000',
+      speed:'2–4 weeks',
+      requirements:'675+ credit score',
+      whyFit:'Your credit score may qualify you for a hybrid business credit line — unsecured funding without business revenue requirements.',
+      notes:'This option is ideal for newer businesses that have strong personal credit but limited business history.',
+      nextSteps:'Work with a credit advisor to identify and apply for Tier 1 business cards that report to business bureaus.'
+    });
+  }
+
+  // ── GRANTS ──
+  if(isUS){
+    grants.push({
+      name:'Hello Alice',
+      type:'Grant',
+      estimatedAmount:'Varies ($500 – $50,000+)',
+      speed:'Rolling applications',
+      requirements:'US-based business owner',
+      whyFit:'Hello Alice runs ongoing grant programs for small business owners across many industries and backgrounds.',
+      notes:'Hello Alice partners with major brands to fund diverse entrepreneurs. Apply to their grant database and set alerts.',
+      nextSteps:'Create a free profile at helloalice.com and apply to all active grants that match your profile.'
+    });
+  }
+  grants.push({
+    name:'IFundWomen',
+    type:'Grant',
+    estimatedAmount:'Varies ($500 – $25,000)',
+    speed:'Rolling applications',
+    requirements:'Open to all business owners',
+    whyFit:'IFundWomen connects business owners with grants, coaching, and a network of funders.',
+    notes:'IFundWomen offers both women-focused and general grants. Their platform includes coaching resources.',
+    nextSteps:'Sign up at ifundwomen.com and complete your business profile to unlock grant matching.'
+  });
+  if(isWoman){
+    grants.push({
+      name:'Amber Grant (WomensNet)',
+      type:'Grant',
+      estimatedAmount:'$10,000/month + $25,000 annually',
+      speed:'Monthly applications',
+      requirements:'Woman-owned business',
+      whyFit:'As a woman business owner, you may qualify for this monthly grant awarded exclusively to women entrepreneurs.',
+      notes:'The Amber Grant awards $10,000 monthly to a woman business owner. Annual winners receive $25,000.',
+      nextSteps:'Apply at ambergrantsforwomen.com — a new winner is selected each month.'
+    });
+    grants.push({
+      name:'Tory Burch Foundation Fellows Program',
+      type:'Grant',
+      estimatedAmount:'Education + funding resources',
+      speed:'Annual application',
+      requirements:'Woman entrepreneur',
+      whyFit:'This program offers women entrepreneurs education, mentorship, and access to capital.',
+      nextSteps:'Visit toryburchfoundation.org/fellows to learn about current program cycles.'
+    });
+  }
+  if(smallTown&&isUS){
+    grants.push({
+      name:'USDA Rural Business Development Grant',
+      type:'Grant',
+      estimatedAmount:'Up to $500,000',
+      speed:'Annual cycle',
+      requirements:'US-based, small/rural town business',
+      whyFit:'Your rural location may make you eligible for USDA grants specifically designed to support small-town businesses.',
+      notes:'USDA RBDG funds technical assistance, training, and other projects for rural small businesses.',
+      nextSteps:'Visit rd.usda.gov/programs-services/business-programs to find your state contact and upcoming deadlines.'
+    });
+  }
+  if(social){
+    grants.push({
+      name:'Halcyon Incubator / Social Impact Grants',
+      type:'Grant',
+      estimatedAmount:'Varies ($5,000 – $100,000)',
+      speed:'Annual or rolling',
+      requirements:'Social impact mission',
+      whyFit:'Your social impact mission may qualify you for grants and incubators that specifically fund mission-driven businesses.',
+      notes:'Many foundations fund businesses creating positive community change. Halcyon and similar programs are strong options.',
+      nextSteps:'Research halcyon.org and use tools like Candid.org/grants to find matching social impact grant opportunities.'
+    });
+  }
+
+  return{loans,loc,grants,additional};
+}
+
+// ── CARD RENDERER ──
+function renderCard(item,typeClass,badgeClass){
+  return`<div class="funding-card ${typeClass}">
+    <div class="card-header">
+      <div class="card-name">${item.name}</div>
+      <span class="card-type-badge ${badgeClass}">${item.type}</span>
+    </div>
+    <div class="card-amount">${item.estimatedAmount}</div>
+    <div class="card-rows">
+      <div class="card-row"><div class="card-row-label">Speed</div><div class="card-row-val">${item.speed}</div></div>
+      <div class="card-row"><div class="card-row-label">Requirements</div><div class="card-row-val">${item.requirements}</div></div>
+      ${item.notes?`<div class="card-row"><div class="card-row-label">Notes</div><div class="card-row-val">${item.notes}</div></div>`:''}
+    </div>
+    <div class="card-why"><div class="card-why-label">Why This May Be a Fit</div><div class="card-why-text">${item.whyFit}</div></div>
+    <div class="card-next">→ ${item.nextSteps}</div>
+  </div>`;
+}
+
+// ── RENDER ──
+window.addEventListener('DOMContentLoaded',()=>{
+  const raw=localStorage.getItem('w10_funding_form');
+  if(!raw){window.location.href='/funding-opportunities.html';return;}
+  const d=JSON.parse(raw);
+  const {loans,loc,grants,additional}=matchFunding(d);
+  const noLoansOrLoc=loans.length===0&&loc.length===0;
+  let html='';
+
+  // Business Loans
+  html+=`<div class="results-section section-loans">
+    <div class="results-section-header">
+      <div class="results-section-icon">💼</div>
+      <div class="results-section-title">Business Loan Opportunities</div>
+    </div>`;
+  if(loans.length>0){
+    html+=`<div class="card-grid">${loans.map(l=>renderCard(l,'card-loan','badge-loan')).join('')}</div>`;
+  } else {
+    html+=`<div class="empty-state">Based on your current profile, you may not yet meet the requirements for traditional business loans. Focus on building your credit score to 675+ and increasing monthly deposits to $8,000+ to unlock these opportunities.</div>`;
+  }
+  html+=`</div>`;
+
+  // Lines of Credit
+  html+=`<div class="results-section section-loc">
+    <div class="results-section-header">
+      <div class="results-section-icon">🏦</div>
+      <div class="results-section-title">Business Line of Credit Opportunities</div>
+    </div>`;
+  if(loc.length>0){
+    html+=`<div class="card-grid">${loc.map(l=>renderCard(l,'card-loc','badge-loc')).join('')}</div>`;
+  } else {
+    html+=`<div class="empty-state">Based on your current profile, you may not yet qualify for traditional business lines of credit. Building your credit to 700+ and establishing 2 years in business will unlock most of these lenders.</div>`;
+  }
+  html+=`</div>`;
+
+  // Additional Options
+  if(additional.length>0){
+    html+=`<div class="results-section section-loans">
+      <div class="results-section-header">
+        <div class="results-section-icon">⚡</div>
+        <div class="results-section-title">Additional Opportunities</div>
+      </div>
+      <div class="card-grid">${additional.map(l=>renderCard(l,'card-loan','badge-loan')).join('')}</div>
+    </div>`;
+  }
+
+  // Empty state message
+  if(noLoansOrLoc){
+    html+=`<div class="results-section"><div class="empty-state" style="border-color:rgba(255,190,51,0.2);background:rgba(255,190,51,0.04);">Based on your answers, your strongest opportunities right now may be grant-based or profile-building options. The grant opportunities below are open to you now — and continuing to build your credit profile will unlock loan and credit line options over the next 3–6 months.</div></div>`;
+  }
+
+  // Grants
+  html+=`<div class="results-section section-grants">
+    <div class="results-section-header">
+      <div class="results-section-icon">🌱</div>
+      <div class="results-section-title">Grant Opportunities</div>
+    </div>
+    <div class="card-grid">${grants.map(g=>renderCard(g,'card-grant','badge-grant')).join('')}</div>`;
+
+  // Grant Training Coming Soon
+  html+=`<div class="grant-training">
+    <div class="coming-soon-badge">Coming Soon</div>
+    <div class="grant-training-title">Grant Application Training</div>
+    <p class="grant-training-desc">We're currently building a step-by-step training to help you successfully apply for grants. This will walk you through how to position your business, avoid common mistakes, and increase your chances of being selected.</p>
+    <button class="notify-btn" onclick="showToast()">Get Notified When This Training Drops</button>
+  </div>`;
+  html+=`</div>`;
+
+  document.getElementById('resultsArea').innerHTML=html;
+});
+</script>
+</body>
+</html>
