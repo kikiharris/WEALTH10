@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Wealth 10.0 — Credit Intelligence</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Syne:wght@600;700;800&family=Lexend:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Lexend:wght@300;400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <style>
 :root{--dark:#070a0f;--dark2:#0d1117;--cyan:#00e5ff;--cyan-dim:rgba(0,229,255,0.12);--cyan-glow:rgba(0,229,255,0.35);--gold:#ffbe33;--gold-dim:rgba(255,190,51,0.12);--green:#00e676;--green-dim:rgba(0,230,118,0.12);--red:#ff4d6a;--red-dim:rgba(255,77,106,0.12);--orange:#ff9100;--border:rgba(0,229,255,0.15);--border2:rgba(255,255,255,0.06);--text:#ddeeff;--text-dim:rgba(221,238,255,0.55);--text-muted:rgba(221,238,255,0.35);}
@@ -31,13 +31,13 @@ body::after{content:'';position:fixed;top:-200px;left:0;right:0;height:200px;bac
 .upload-icon{width:60px;height:60px;margin:0 auto 18px;border:2px solid var(--cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px var(--cyan-glow);animation:iconPulse 2.5s ease-in-out infinite;}
 @keyframes iconPulse{0%,100%{box-shadow:0 0 12px var(--cyan-glow)}50%{box-shadow:0 0 28px var(--cyan-glow),0 0 60px rgba(0,229,255,0.08)}}
 .upload-icon svg{color:var(--cyan);}
-.upload-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px;}
+.upload-title{font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;color:var(--text);margin-bottom:8px;}
 .upload-sub{font-size:0.88rem;font-weight:300;color:var(--text-dim);margin-bottom:24px;}
-.upload-btn{display:inline-block;padding:13px 36px;background:linear-gradient(135deg,var(--cyan) 0%,#009ab5 100%);color:#000;font-family:'Syne',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:1px;border:none;border-radius:4px;cursor:pointer;transition:all 0.2s ease;text-transform:uppercase;}
+.upload-btn{display:inline-block;padding:13px 36px;background:linear-gradient(135deg,var(--cyan) 0%,#009ab5 100%);color:#000;font-family:'Lexend',sans-serif;font-size:0.8rem;font-weight:700;letter-spacing:1px;border:none;border-radius:4px;cursor:pointer;transition:all 0.2s ease;text-transform:uppercase;}
 .upload-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,229,255,0.35);}
 #fileInput{display:none;}
 .file-selected{margin-top:14px;padding:11px 16px;background:var(--cyan-dim);border:1px solid var(--border);border-radius:5px;font-size:0.85rem;color:var(--cyan);display:none;align-items:center;gap:8px;}
-.analyze-btn{width:100%;margin-top:18px;padding:17px;background:transparent;border:2px solid var(--gold);color:var(--gold);font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:5px;transition:all 0.3s ease;display:none;}
+.analyze-btn{width:100%;margin-top:18px;padding:17px;background:transparent;border:2px solid var(--gold);color:var(--gold);font-family:'Lexend',sans-serif;font-size:0.88rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:5px;transition:all 0.3s ease;display:none;}
 .analyze-btn:hover{box-shadow:0 0 30px rgba(255,190,51,0.25);transform:translateY(-2px);background:rgba(255,190,51,0.05);}
 .trust-badges{display:flex;justify-content:center;gap:28px;margin-top:28px;flex-wrap:wrap;}
 .badge{display:flex;align-items:center;gap:7px;font-size:0.78rem;font-weight:400;color:var(--text-dim);}
@@ -47,7 +47,7 @@ body::after{content:'';position:fixed;top:-200px;left:0;right:0;height:200px;bac
 #loading{display:none;position:fixed;inset:0;background:var(--dark);z-index:200;align-items:center;justify-content:center;flex-direction:column;gap:22px;}
 .loading-ring{width:80px;height:80px;border-radius:50%;border:3px solid transparent;border-top-color:var(--cyan);border-right-color:var(--gold);animation:spin 1.2s linear infinite;box-shadow:0 0 30px var(--cyan-glow);}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;letter-spacing:3px;color:var(--cyan);animation:textPulse 1.5s ease-in-out infinite;}
+.loading-title{font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;letter-spacing:3px;color:var(--cyan);animation:textPulse 1.5s ease-in-out infinite;}
 .loading-sub{font-size:0.85rem;font-weight:300;color:var(--text-dim);letter-spacing:1px;}
 @keyframes textPulse{0%,100%{opacity:1}50%{opacity:0.4}}
 #results{display:none;position:relative;z-index:1;padding:90px 20px 60px;max-width:900px;margin:0 auto;animation:fadeUp 0.5s ease forwards;}
@@ -56,7 +56,7 @@ body::after{content:'';position:fixed;top:-200px;left:0;right:0;height:200px;bac
 .section-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.5;}
 .section-card:hover{border-color:rgba(0,229,255,0.2);}
 .section-number{font-family:'Lexend',sans-serif;font-size:0.62rem;font-weight:500;letter-spacing:3px;color:var(--text-muted);text-transform:uppercase;margin-bottom:5px;}
-.section-title{font-family:'Syne',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:1px;color:var(--cyan);text-transform:uppercase;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:10px;}
+.section-title{font-family:'Lexend',sans-serif;font-size:1.05rem;font-weight:700;letter-spacing:1px;color:var(--cyan);text-transform:uppercase;margin-bottom:24px;padding-bottom:14px;border-bottom:1px solid var(--border2);display:flex;align-items:center;gap:10px;}
 .section-icon{width:30px;height:30px;border:1px solid var(--cyan);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:0.85rem;box-shadow:0 0 10px rgba(0,229,255,0.15);}
 /* READINESS */
 .readiness-card{text-align:center;padding:40px 32px;}
@@ -69,7 +69,7 @@ body::after{content:'';position:fixed;top:-200px;left:0;right:0;height:200px;bac
 .header-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;}
 .header-item{background:rgba(0,229,255,0.03);border:1px solid var(--border2);border-radius:7px;padding:14px 18px;}
 .header-item-label{font-size:0.65rem;font-weight:600;letter-spacing:3px;color:var(--text-muted);text-transform:uppercase;margin-bottom:7px;}
-.header-item-value{font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;color:var(--text);}
+.header-item-value{font-family:'Lexend',sans-serif;font-size:0.9rem;font-weight:700;color:var(--text);}
 /* BREAKDOWN */
 .breakdown-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px;}
 .breakdown-item{background:rgba(0,0,0,0.35);border:1px solid var(--border2);border-radius:7px;padding:18px;}
@@ -90,23 +90,23 @@ body::after{content:'';position:fixed;top:-200px;left:0;right:0;height:200px;bac
 .score-strong{background:rgba(0,230,118,0.12);color:#00e676;border:1px solid rgba(0,230,118,0.25);}
 .score-needs{background:rgba(255,190,51,0.12);color:var(--gold);border:1px solid rgba(255,190,51,0.25);}
 .score-major{background:rgba(255,77,106,0.12);color:var(--red);border:1px solid rgba(255,77,106,0.25);}
-.scorecard-name{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;color:var(--text);margin-bottom:3px;}
+.scorecard-name{font-family:'Lexend',sans-serif;font-size:0.88rem;font-weight:700;color:var(--text);margin-bottom:3px;}
 .scorecard-explanation{font-size:0.82rem;font-weight:300;color:var(--text-dim);line-height:1.55;}
 /* BLOCKING */
 .blocking-item{background:rgba(255,77,106,0.04);border:1px solid rgba(255,77,106,0.2);border-radius:8px;padding:20px;margin-bottom:12px;}
 .blocking-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;gap:12px;flex-wrap:wrap;}
-.blocking-title{font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;color:var(--red);}
+.blocking-title{font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;color:var(--red);}
 .blocking-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 .blocking-box{background:rgba(0,0,0,0.3);border-radius:6px;padding:12px 14px;}
 .blocking-box-label{font-size:0.62rem;font-weight:600;letter-spacing:2px;color:var(--text-muted);text-transform:uppercase;margin-bottom:5px;}
 .blocking-box-text{font-size:0.85rem;font-weight:300;color:var(--text-dim);line-height:1.55;}
-.no-blocks{text-align:center;padding:24px;color:var(--green);font-family:'Syne',sans-serif;font-size:1rem;font-weight:700;}
+.no-blocks{text-align:center;padding:24px;color:var(--green);font-family:'Lexend',sans-serif;font-size:1rem;font-weight:700;}
 /* COMPARE */
 .compare-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
 .compare-col{border-radius:8px;padding:22px;}
 .compare-col-bad{background:rgba(255,77,106,0.06);border:1px solid rgba(255,77,106,0.2);}
 .compare-col-good{background:rgba(0,230,118,0.06);border:1px solid rgba(0,230,118,0.2);}
-.compare-col-title{font-family:'Syne',sans-serif;font-size:0.88rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;}
+.compare-col-title{font-family:'Lexend',sans-serif;font-size:0.88rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:14px;}
 .compare-col-bad .compare-col-title{color:var(--red);}
 .compare-col-good .compare-col-title{color:var(--green);}
 .compare-list{list-style:none;display:flex;flex-direction:column;gap:8px;}
@@ -136,7 +136,7 @@ body::after{content:'';position:fixed;top:-200px;left:0;right:0;height:200px;bac
 .phase-badge-large{flex-shrink:0;width:100px;height:100px;border:2px solid;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;}
 .phase-number-big{font-family:'Orbitron',monospace;font-size:2.2rem;font-weight:900;line-height:1;}
 .phase-word{font-size:0.6rem;font-weight:600;letter-spacing:2px;text-transform:uppercase;}
-.phase-name-large{font-family:'Syne',sans-serif;font-size:1.8rem;font-weight:800;letter-spacing:2px;margin-bottom:10px;}
+.phase-name-large{font-family:'Lexend',sans-serif;font-size:1.8rem;font-weight:800;letter-spacing:2px;margin-bottom:10px;}
 .phase-explanation{font-size:0.92rem;font-weight:300;color:var(--text-dim);line-height:1.8;}
 /* REASONS / STEPS */
 .reasons-list,.steps-list{list-style:none;display:flex;flex-direction:column;gap:10px;}
@@ -170,14 +170,16 @@ body::after{content:'';position:fixed;top:-200px;left:0;right:0;height:200px;bac
 /* CTA */
 .cta-card{text-align:center;padding:40px 32px;background:linear-gradient(135deg,rgba(255,190,51,0.06),rgba(0,229,255,0.04));border-color:rgba(255,190,51,0.2)!important;}
 .cta-card::before{background:linear-gradient(90deg,transparent,var(--gold),transparent)!important;opacity:0.4!important;}
-.cta-heading{font-family:'Syne',sans-serif;font-size:1.4rem;font-weight:800;color:var(--gold);margin-bottom:14px;}
+.cta-heading{font-family:'Lexend',sans-serif;font-size:1.4rem;font-weight:800;color:var(--gold);margin-bottom:14px;}
 .cta-para{font-size:0.95rem;font-weight:300;color:var(--text-dim);line-height:1.8;max-width:540px;margin:0 auto 24px;}
-.cta-btn{display:inline-block;padding:15px 40px;background:linear-gradient(135deg,var(--gold),#e6a800);color:#000;font-family:'Syne',sans-serif;font-size:0.9rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:none;border-radius:5px;cursor:pointer;transition:all 0.3s ease;text-decoration:none;}
+.cta-btn{display:inline-block;padding:15px 40px;background:linear-gradient(135deg,var(--gold),#e6a800);color:#000;font-family:'Lexend',sans-serif;font-size:0.9rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:none;border-radius:5px;cursor:pointer;transition:all 0.3s ease;text-decoration:none;}
 .cta-btn:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(255,190,51,0.35);}
 /* ACTION BUTTONS */
 .action-buttons{display:flex;flex-direction:column;align-items:center;gap:10px;margin-top:24px;}
-.download-btn{display:block;width:100%;max-width:320px;padding:16px;background:linear-gradient(135deg,var(--cyan),#009ab5);color:#000;font-family:'Syne',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;border-radius:5px;transition:all 0.3s ease;}
+.download-btn{display:block;width:100%;max-width:320px;padding:16px;background:linear-gradient(135deg,var(--cyan),#009ab5);color:#000;font-family:'Lexend',sans-serif;font-size:0.85rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border:none;border-radius:5px;transition:all 0.3s ease;}
 .download-btn:hover{transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,229,255,0.35);}
+.more-funding-btn{display:block;width:100%;max-width:520px;margin:0 auto 12px;padding:18px 24px;background:linear-gradient(135deg,rgba(0,230,118,0.1),rgba(0,229,255,0.08));border:2px solid var(--green);color:var(--green);font-family:'Lexend',sans-serif;font-size:0.92rem;font-weight:600;text-align:center;text-decoration:none;border-radius:6px;transition:all 0.3s ease;line-height:1.4;}
+.more-funding-btn:hover{background:rgba(0,230,118,0.15);box-shadow:0 0 30px rgba(0,230,118,0.2);transform:translateY(-2px);}
 .reset-btn{display:block;width:100%;max-width:320px;padding:14px;background:transparent;border:1px solid var(--border2);color:var(--text-muted);font-family:'Lexend',sans-serif;font-size:0.8rem;font-weight:400;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:5px;transition:all 0.3s ease;}
 .reset-btn:hover{border-color:var(--cyan);color:var(--cyan);}
 @media(max-width:640px){
@@ -397,6 +399,7 @@ function renderResults(r,uploadedName){
       <a href="mailto:info@wealth10.com" class="cta-btn">Book a Free Strategy Session</a>
     </div>
     <div class="action-buttons">
+      <a href="/funding-opportunities.html" class="more-funding-btn">🔍 &nbsp;Click Here to See More Funding Opportunities Available for You Now</a>
       <button class="download-btn" onclick="window.print()">⬇ &nbsp;Download My Report (PDF)</button>
       <button class="reset-btn" onclick="resetApp()">← Analyze Another Report</button>
     </div>
