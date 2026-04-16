@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>More Funding Opportunities — Wealth 10.0</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Lexend:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{--dark:#070a0f;--cyan:#00e5ff;--cyan-dim:rgba(0,229,255,0.12);--cyan-glow:rgba(0,229,255,0.35);--gold:#ffbe33;--gold-dim:rgba(255,190,51,0.12);--green:#00e676;--green-dim:rgba(0,230,118,0.12);--red:#ff4d6a;--red-dim:rgba(255,77,106,0.12);--border:rgba(0,229,255,0.15);--border2:rgba(255,255,255,0.06);--text:#ddeeff;--text-dim:rgba(221,238,255,0.55);--text-muted:rgba(221,238,255,0.35);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--dark);color:var(--text);font-family:'Lexend',sans-serif;font-weight:400;min-height:100vh;overflow-x:hidden;line-height:1.6;}
+body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,0.025) 1px,transparent 1px);background-size:50px 50px;pointer-events:none;z-index:0;}
+.logo-bar{position:fixed;top:0;left:0;right:0;padding:16px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(7,10,15,0.92);backdrop-filter:blur(16px);z-index:100;}
+.logo-name{font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;color:var(--cyan);letter-spacing:4px;text-shadow:0 0 20px var(--cyan-glow);}
+.logo-tag{font-size:0.72rem;font-weight:500;letter-spacing:3px;color:var(--gold);text-transform:uppercase;}
+.logo-version{font-family:'Orbitron',monospace;font-size:0.95rem;font-weight:900;color:var(--gold);text-shadow:0 0 15px rgba(255,190,51,0.5);}
+.page-wrap{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:110px 20px 60px;}
+.page-header{text-align:center;margin-bottom:48px;}
+.page-badge{display:inline-block;padding:6px 18px;border:1px solid var(--cyan);border-radius:2px;font-size:0.68rem;font-weight:600;letter-spacing:4px;color:var(--cyan);text-transform:uppercase;margin-bottom:20px;}
+.page-title{font-size:clamp(1.2rem,2.5vw,1.7rem);font-weight:700;color:var(--text);line-height:1.5;margin-bottom:14px;}
+.page-sub{font-size:0.95rem;font-weight:300;color:var(--text-dim);line-height:1.8;max-width:580px;margin:0 auto;}
+.form-card{background:rgba(13,17,23,0.97);border:1px solid var(--border2);border-radius:10px;padding:32px;margin-bottom:20px;position:relative;overflow:hidden;}
+.form-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);opacity:0.5;}
+.form-section-title{font-size:0.7rem;font-weight:600;letter-spacing:3px;color:var(--cyan);text-transform:uppercase;margin-bottom:22px;padding-bottom:10px;border-bottom:1px solid var(--border2);}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.form-group{display:flex;flex-direction:column;gap:8px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{font-size:0.78rem;font-weight:600;color:var(--text-dim);letter-spacing:0.3px;}
+.form-label span{color:var(--red);margin-left:2px;}
+.form-control{background:rgba(0,0,0,0.4);border:1px solid var(--border2);border-radius:6px;padding:12px 14px;color:var(--text);font-family:'Lexend',sans-serif;font-size:0.88rem;font-weight:400;transition:all 0.2s ease;outline:none;width:100%;-webkit-appearance:none;}
+.form-control:focus{border-color:var(--cyan);box-shadow:0 0 12px rgba(0,229,255,0.1);}
+.form-control option{background:#0d1117;color:var(--text);}
+.radio-group{display:flex;gap:10px;}
+.radio-option{flex:1;}
+.radio-option input{display:none;}
+.radio-option label{display:block;padding:11px 14px;background:rgba(0,0,0,0.4);border:1px solid var(--border2);border-radius:6px;font-size:0.85rem;font-weight:500;color:var(--text-dim);cursor:pointer;text-align:center;transition:all 0.2s ease;}
+.radio-option input:checked+label{border-color:var(--cyan);color:var(--cyan);background:var(--cyan-dim);}
+.radio-option label:hover{border-color:rgba(0,229,255,0.3);color:var(--text);}
+.multi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;}
+.check-option input{display:none;}
+.check-option label{display:block;padding:10px 14px;background:rgba(0,0,0,0.4);border:1px solid var(--border2);border-radius:6px;font-size:0.82rem;font-weight:400;color:var(--text-dim);cursor:pointer;transition:all 0.2s ease;}
+.check-option input:checked+label{border-color:var(--gold);color:var(--gold);background:var(--gold-dim);}
+.check-option label:hover{border-color:rgba(255,190,51,0.3);}
+.submit-btn{width:100%;padding:18px;background:linear-gradient(135deg,var(--gold),#e6a800);color:#000;font-family:'Lexend',sans-serif;font-size:0.95rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:none;border-radius:6px;cursor:pointer;transition:all 0.3s ease;margin-top:8px;}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(255,190,51,0.35);}
+.back-link{display:block;text-align:center;margin-top:16px;font-size:0.8rem;color:var(--text-muted);cursor:pointer;transition:color 0.2s ease;text-decoration:none;}
+.back-link:hover{color:var(--cyan);}
+@media(max-width:600px){.form-grid{grid-template-columns:1fr;}.logo-bar{padding:14px 20px;}.radio-group{flex-direction:column;}}
+</style>
+</head>
+<body>
+<div class="logo-bar">
+  <div class="logo-name">WEALTH</div>
+  <div class="logo-tag">Credit Intelligence Platform</div>
+  <div class="logo-version">10.0</div>
+</div>
+
+<div class="page-wrap">
+  <div class="page-header">
+    <div class="page-badge">More Funding Opportunities</div>
+    <h1 class="page-title">Complete this form to see grants, business lines of credit, and business loans that may be available for your business now</h1>
+    <p class="page-sub">Answer the questions below so we can match you with the funding opportunities that best fit your current business profile.</p>
+  </div>
+
+  <form id="fundingForm">
+    <!-- PERSONAL -->
+    <div class="form-card">
+      <div class="form-section-title">// Personal Profile</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <div class="form-label">Gender <span>*</span></div>
+          <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="gender" id="gM" value="man" required><label for="gM">Man</label></div>
+            <div class="radio-option"><input type="radio" name="gender" id="gW" value="woman"><label for="gW">Woman</label></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-label">Are you a veteran? <span>*</span></div>
+          <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="veteranStatus" id="vY" value="yes" required><label for="vY">Yes</label></div>
+            <div class="radio-option"><input type="radio" name="veteranStatus" id="vN" value="no"><label for="vN">No</label></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-label">US-Based Business? <span>*</span></div>
+          <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="isUSBased" id="uY" value="yes" required><label for="uY">Yes</label></div>
+            <div class="radio-option"><input type="radio" name="isUSBased" id="uN" value="no"><label for="uN">No</label></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-label">Small or rural town?</div>
+          <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="smallTown" id="sY" value="yes"><label for="sY">Yes</label></div>
+            <div class="radio-option"><input type="radio" name="smallTown" id="sN" value="no"><label for="sN">No</label></div>
+          </div>
+        </div>
+        <div class="form-group full">
+          <div class="form-label">Does your business have a social impact mission?</div>
+          <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="socialImpact" id="siY" value="yes"><label for="siY">Yes</label></div>
+            <div class="radio-option"><input type="radio" name="socialImpact" id="siN" value="no"><label for="siN">No</label></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUSINESS -->
+    <div class="form-card">
+      <div class="form-section-title">// Business Details</div>
+      <div class="form-grid">
+        <div class="form-group full">
+          <div class="form-label">Business Name <span>*</span></div>
+          <input type="text" class="form-control" name="businessName" placeholder="Your business name" required>
+        </div>
+        <div class="form-group">
+          <div class="form-label">Industry <span>*</span></div>
+          <select class="form-control" name="industry" required>
+            <option value="">Select industry...</option>
+            <option>Retail</option><option>Food & Beverage</option><option>Health & Wellness</option>
+            <option>Technology</option><option>Construction & Trades</option><option>Real Estate</option>
+            <option>Beauty & Personal Care</option><option>Transportation & Logistics</option>
+            <option>Education & Training</option><option>Consulting & Professional Services</option>
+            <option>Creative & Media</option><option>Non-Profit</option><option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="form-label">Time in Business <span>*</span></div>
+          <select class="form-control" name="timeInBusiness" required>
+            <option value="">Select range...</option>
+            <option value="0">Less than 3 months</option>
+            <option value="3">3–6 months</option>
+            <option value="6">6–12 months</option>
+            <option value="12">1–2 years</option>
+            <option value="24">2+ years</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="form-label">Is your business 2+ years old? <span>*</span></div>
+          <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="business2Years" id="b2Y" value="yes" required><label for="b2Y">Yes</label></div>
+            <div class="radio-option"><input type="radio" name="business2Years" id="b2N" value="no"><label for="b2N">No</label></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="form-label">Annual Revenue <span>*</span></div>
+          <select class="form-control" name="annualRevenue" required>
+            <option value="">Select range...</option>
+            <option value="0">Under $36,000</option>
+            <option value="36000">$36,000 – $99,999</option>
+            <option value="100000">$100,000 – $249,999</option>
+            <option value="250000">$250,000 – $499,999</option>
+            <option value="500000">$500,000+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="form-label">Avg Monthly Bank Deposits <span>*</span></div>
+          <select class="form-control" name="monthlyDeposits" required>
+            <option value="">Select range...</option>
+            <option value="0">Under $3,000</option>
+            <option value="3000">$3,000 – $7,999</option>
+            <option value="8000">$8,000 – $14,999</option>
+            <option value="15000">$15,000 – $29,999</option>
+            <option value="30000">$30,000+</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- CREDIT -->
+    <div class="form-card">
+      <div class="form-section-title">// Credit Profile</div>
+      <div class="form-grid">
+        <div class="form-group">
+          <div class="form-label">Credit Score Range <span>*</span></div>
+          <select class="form-control" name="creditScoreRange" required>
+            <option value="">Select range...</option>
+            <option value="580">Below 620</option>
+            <option value="620">620 – 659</option>
+            <option value="660">660 – 674</option>
+            <option value="675">675 – 699</option>
+            <option value="700">700 – 729</option>
+            <option value="730">730 – 759</option>
+            <option value="760">760+</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <div class="form-label">Do you have major bank credit cards?</div>
+          <div class="radio-group">
+            <div class="radio-option"><input type="radio" name="hasMajorCreditCards" id="ccY" value="yes"><label for="ccY">Yes</label></div>
+            <div class="radio-option"><input type="radio" name="hasMajorCreditCards" id="ccN" value="no"><label for="ccN">No</label></div>
+          </div>
+        </div>
+        <div class="form-group full">
+          <div class="form-label">Negative Credit Items (select all that apply)</div>
+          <div class="multi-grid">
+            <div class="check-option"><input type="checkbox" name="neg" id="n1" value="late_payments"><label for="n1">Late Payments</label></div>
+            <div class="check-option"><input type="checkbox" name="neg" id="n2" value="collections"><label for="n2">Collections</label></div>
+            <div class="check-option"><input type="checkbox" name="neg" id="n3" value="charge_offs"><label for="n3">Charge-offs</label></div>
+            <div class="check-option"><input type="checkbox" name="neg" id="n4" value="bankruptcy"><label for="n4">Bankruptcy</label></div>
+            <div class="check-option"><input type="checkbox" name="neg" id="n5" value="judgments"><label for="n5">Judgments</label></div>
+            <div class="check-option"><input type="checkbox" name="neg" id="n6" value="none"><label for="n6">None</label></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button type="submit" class="submit-btn">See My Funding Opportunities →</button>
+    <a class="back-link" onclick="history.back()">← Back to my credit report</a>
+  </form>
+</div>
+
+<script>
+document.getElementById('fundingForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const fd = new FormData(this);
+  const data = {};
+  ['gender','veteranStatus','timeInBusiness','businessName','industry','isUSBased','smallTown','socialImpact','creditScoreRange','monthlyDeposits','annualRevenue','business2Years','hasMajorCreditCards'].forEach(k => {
+    data[k] = fd.get(k) || '';
+  });
+  data.negativeCreditItems = fd.getAll('neg');
+  data.creditScore = parseInt(data.creditScoreRange) || 0;
+  data.monthlyDepositsNum = parseInt(data.monthlyDeposits) || 0;
+  data.annualRevenueNum = parseInt(data.annualRevenue) || 0;
+  data.timeInBusinessNum = parseInt(data.timeInBusiness) || 0;
+  localStorage.setItem('w10_funding_form', JSON.stringify(data));
+  window.location.href = '/funding-opportunities-results.html';
+});
+</script>
+</body>
+</html>
