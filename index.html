@@ -191,6 +191,30 @@ body::after{content:'';position:fixed;top:-200px;left:0;right:0;height:200px;bac
   .scorecard-grid{grid-template-columns:1fr;}
   .logo-bar{padding:14px 20px;}
 }
+
+/* ── PAYWALL ── */
+#paywall{position:relative;z-index:1;}
+.price-display{text-align:center;margin-bottom:28px;}
+.price-original{font-family:"Orbitron",monospace;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:var(--gold);text-shadow:0 0 30px rgba(255,190,51,0.4);line-height:1;}
+.price-sub{font-size:0.85rem;font-weight:300;color:var(--text-dim);margin-top:6px;letter-spacing:1px;}
+.discount-box{background:rgba(13,17,23,0.97);border:1px solid var(--border2);border-radius:10px;padding:28px 32px;margin-bottom:18px;position:relative;overflow:hidden;}
+.discount-box::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:0.5;}
+.discount-label{font-size:0.72rem;font-weight:600;letter-spacing:3px;color:var(--text-muted);text-transform:uppercase;margin-bottom:12px;display:block;}
+.discount-row{display:flex;gap:10px;}
+.discount-input{flex:1;background:rgba(0,0,0,0.4);border:1px solid var(--border2);border-radius:6px;padding:13px 16px;color:var(--text);font-family:"Lexend",sans-serif;font-size:0.92rem;font-weight:500;outline:none;letter-spacing:2px;text-transform:uppercase;transition:all 0.2s ease;}
+.discount-input:focus{border-color:var(--gold);box-shadow:0 0 12px rgba(255,190,51,0.1);}
+.discount-input::placeholder{text-transform:none;letter-spacing:0;font-weight:300;color:var(--text-muted);}
+.discount-apply-btn{padding:13px 22px;background:transparent;border:1px solid var(--gold);color:var(--gold);font-family:"Lexend",sans-serif;font-size:0.8rem;font-weight:600;border-radius:6px;cursor:pointer;transition:all 0.2s ease;white-space:nowrap;}
+.discount-apply-btn:hover{background:var(--gold-dim);}
+.discount-success{display:none;margin-top:10px;padding:10px 14px;background:var(--green-dim);border:1px solid rgba(0,230,118,0.3);border-radius:6px;font-size:0.85rem;font-weight:500;color:var(--green);}
+.discount-error{display:none;margin-top:10px;padding:10px 14px;background:var(--red-dim);border:1px solid rgba(255,77,106,0.3);border-radius:6px;font-size:0.85rem;font-weight:400;color:var(--red);}
+.pay-btn{width:100%;padding:20px;background:linear-gradient(135deg,var(--gold),#e6a800);color:#000;font-family:"Lexend",sans-serif;font-size:1rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;border:none;border-radius:6px;cursor:pointer;transition:all 0.3s ease;margin-bottom:10px;}
+.pay-btn:hover{transform:translateY(-2px);box-shadow:0 10px 35px rgba(255,190,51,0.4);}
+.pay-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+.pay-secure{font-size:0.75rem;font-weight:300;color:var(--text-muted);text-align:center;letter-spacing:0.5px;}
+.price-discounted{font-family:"Orbitron",monospace;font-size:clamp(2rem,5vw,3.5rem);font-weight:900;color:var(--green);text-shadow:0 0 30px rgba(0,230,118,0.4);line-height:1;}
+.price-struck{text-decoration:line-through;color:var(--text-muted);font-size:1.2rem;margin-right:12px;}
+
 @media print{
   *{-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important;}
   body{background:#070a0f!important;}
@@ -216,6 +240,38 @@ body::after{content:'';position:fixed;top:-200px;left:0;right:0;height:200px;bac
     <h1 class="hero-title">WEALTH</h1>
     <span class="hero-version">10.0</span>
     <p class="hero-sub">Upload your credit report and receive a complete funding intelligence report — score breakdown, blocking issues, phase placement, and your personalized action plan.</p>
+
+    <!-- PAYWALL -->
+    <div id="paywall" class="upload-container">
+      <div class="price-display">
+        <div id="priceShow" class="price-original">$299.00</div>
+        <div class="price-sub">One-time payment · Instant results · No subscription</div>
+      </div>
+
+      <div class="discount-box">
+        <span class="discount-label">// Have a Discount Code?</span>
+        <div class="discount-row">
+          <input type="text" class="discount-input" id="discountInput" placeholder="Enter code here" maxlength="20">
+          <button class="discount-apply-btn" onclick="applyDiscount()">Apply</button>
+        </div>
+        <div class="discount-success" id="discountSuccess">✓ Discount applied! Price reduced to $11.00</div>
+        <div class="discount-error" id="discountError">✗ Invalid discount code. Please try again.</div>
+      </div>
+
+      <button class="pay-btn" id="payBtn" onclick="startPayment()">
+        🔒 &nbsp;Pay &amp; Unlock My Report
+      </button>
+      <div class="pay-secure">🔒 Secured by Stripe · SSL Encrypted · No card data stored on our servers</div>
+
+      <div class="trust-badges" style="margin-top:20px">
+        <div class="badge"><div class="badge-dot"></div> Encrypted</div>
+        <div class="badge"><div class="badge-dot"></div> No Data Stored</div>
+        <div class="badge"><div class="badge-dot"></div> Instant Results</div>
+      </div>
+    </div>
+
+    <!-- UPLOAD (hidden until paid) -->
+    <div id="uploadSection" style="display:none">
     <div class="upload-container">
       <span class="upload-label">// Upload Credit Report</span>
       <div class="upload-box" id="uploadBox">
@@ -239,6 +295,7 @@ body::after{content:'';position:fixed;top:-200px;left:0;right:0;height:200px;bac
         <div class="badge"><div class="badge-dot"></div> Instant Results</div>
       </div>
     </div>
+    </div><!-- end uploadSection -->
   </div>
 </div>
 
