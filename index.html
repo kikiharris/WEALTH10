@@ -308,6 +308,79 @@ body::after{content:'';position:fixed;top:-200px;left:0;right:0;height:200px;bac
 <div id="results"></div>
 
 <script>
+
+// ── PAYMENT LOGIC ──
+let discountApplied = false;
+
+window.addEventListener('DOMContentLoaded', async () => {
+  const params = new URLSearchParams(window.location.search);
+  const sessionId = params.get('session_id');
+  if (sessionId) {
+    try {
+      const res = await fetch('/api/verify-payment', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ sessionId })
+      });
+      const data = await res.json();
+      if (data.paid) {
+        sessionStorage.setItem('w10_paid', sessionId);
+        unlockUpload();
+        window.history.replaceState({}, document.title, '/');
+      }
+    } catch(e) { console.error(e); }
+  }
+  if (sessionStorage.getItem('w10_paid')) {
+    unlockUpload();
+  }
+});
+
+function unlockUpload() {
+  document.getElementById('paywall').style.display = 'none';
+  document.getElementById('uploadSection').style.display = 'block';
+}
+
+function applyDiscount() {
+  const code = document.getElementById('discountInput').value.trim().toUpperCase();
+  const success = document.getElementById('discountSuccess');
+  const error = document.getElementById('discountError');
+  const priceShow = document.getElementById('priceShow');
+  if (code === 'WEALTH11') {
+    discountApplied = true;
+    success.style.display = 'block';
+    error.style.display = 'none';
+    priceShow.innerHTML = '<span class="price-struck">$299</span> <span class="price-discounted">$11.00</span>';
+  } else {
+    discountApplied = false;
+    error.style.display = 'block';
+    success.style.display = 'none';
+  }
+}
+
+async function startPayment() {
+  const btn = document.getElementById('payBtn');
+  btn.disabled = true;
+  btn.textContent = 'Redirecting to checkout...';
+  try {
+    const discountCode = discountApplied ? 'WEALTH11' : '';
+    const res = await fetch('/api/create-checkout', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({ discountCode })
+    });
+    const data = await res.json();
+    if (data.url) {
+      window.location.href = data.url;
+    } else {
+      throw new Error(data.error || 'Could not create checkout session');
+    }
+  } catch(err) {
+    btn.disabled = false;
+    btn.textContent = '🔒  Pay & Unlock My Report';
+    alert('Payment error: ' + err.message);
+  }
+}
+
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 let selectedFile=null;
 const uploadBox=document.getElementById('uploadBox');
