@@ -15,9 +15,9 @@ body::after{content:'';position:fixed;top:-200px;left:0;right:0;height:200px;bac
 @keyframes scanline{0%{top:-200px}100%{top:100vh}}
 .logo-bar{position:fixed;top:0;left:0;right:0;padding:14px 40px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--border);background:rgba(7,10,15,0.93);backdrop-filter:blur(16px);z-index:100;}
 .logo-tag-nav{font-size:0.68rem;font-weight:500;letter-spacing:3px;color:rgba(127,255,0,0.7);text-transform:uppercase;}
-.nav-logo{height:100px;width:auto;object-fit:contain;filter:drop-shadow(0 0 8px rgba(0,170,255,0.3));transition:filter 0.3s ease;}
+.nav-logo{height:125px;width:auto;object-fit:contain;filter:drop-shadow(0 0 8px rgba(0,170,255,0.3));transition:filter 0.3s ease;}
 .nav-logo:hover{filter:drop-shadow(0 0 16px rgba(0,170,255,0.5));}
-.page{position:relative;z-index:1;min-height:100vh;padding:90px 20px 60px;display:none;}
+.page{position:relative;z-index:1;min-height:100vh;padding:150px 20px 60px;display:none;}
 .page.active{display:block;}
 .page-inner{max-width:720px;margin:0 auto;}
 .step-header{text-align:center;margin-bottom:44px;}
@@ -228,9 +228,22 @@ body::after{content:'';position:fixed;top:-200px;left:0;right:0;height:200px;bac
 .reset-btn{display:block;width:100%;max-width:500px;margin:0 auto;padding:13px;background:transparent;border:1px solid var(--border2);color:var(--text-muted);font-family:'Lexend',sans-serif;font-size:0.78rem;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:5px;transition:all 0.3s ease;}
 .reset-btn:hover{border-color:var(--blue);color:var(--blue);}
 .action-btns{display:flex;flex-direction:column;align-items:center;gap:0;margin-top:24px;}
+
+.consent-box{background:rgba(0,170,255,0.04);border:1px solid rgba(0,170,255,0.15);border-radius:8px;padding:18px 20px;margin-top:18px;}
+.consent-check{display:flex;align-items:flex-start;gap:12px;cursor:pointer;}
+.consent-check input[type=checkbox]{display:none;}
+.consent-custom{flex-shrink:0;width:20px;height:20px;border:2px solid var(--border2);border-radius:4px;margin-top:2px;transition:all 0.2s ease;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,0.4);}
+.consent-check input:checked~.consent-custom{border-color:var(--green);background:var(--green-dim);}
+.consent-check input:checked~.consent-custom::after{content:"✓";font-size:0.75rem;color:var(--green);font-weight:700;}
+.consent-text{font-size:0.82rem;font-weight:300;color:var(--text-dim);line-height:1.7;}
+.consent-text a{color:var(--blue);text-decoration:none;}
+.consent-text a:hover{text-decoration:underline;}
+.footer-links{text-align:center;padding:20px;position:relative;z-index:1;}
+.footer-links a{font-size:0.75rem;color:var(--text-muted);text-decoration:none;margin:0 12px;transition:color 0.2s ease;}
+.footer-links a:hover{color:var(--blue);}
 @media(max-width:640px){
   .logo-bar{padding:12px 20px;flex-direction:column;align-items:center;gap:8px;}
-  .nav-logo{height:80px;}
+  .nav-logo{height:90px;}
   .cmp-grid,.block-grid{grid-template-columns:1fr;}
   .phase-wrap{flex-direction:column;align-items:center;text-align:center;}
   .section-card{padding:22px 16px;}
@@ -438,6 +451,13 @@ body::after{content:'';position:fixed;top:-200px;left:0;right:0;height:200px;bac
 
         </div>
         <div class="error-box" id="errorBox"></div>
+        <div class="consent-box" style="margin-top:24px;">
+          <label class="consent-check">
+            <input type="checkbox" id="consentCheck" required>
+            <div class="consent-custom"></div>
+            <span class="consent-text">I agree to the <a href="/terms-of-service.html" target="_blank">Terms of Service</a> and <a href="/privacy-policy.html" target="_blank">Privacy Policy</a>. I understand that my credit report will be processed by AI to generate my funding analysis and is not permanently stored. I acknowledge that results are for informational purposes only and do not constitute financial advice or a guarantee of funding approval.</span>
+          </label>
+        </div>
         <br>
         <button type="submit" class="submit-btn" id="submitBtn">Analyze My Funding Options →</button>
       </form>
@@ -607,7 +627,7 @@ function showPaywall(){
   if(analysisResult&&analysisResult.estimatedFunding&&analysisResult.estimatedFunding.range){
     document.getElementById('paywallRange').textContent=analysisResult.estimatedFunding.range;
   }
-  if(sessionStorage.getItem('w10_paid')){renderResults();return;}
+  if(localStorage.getItem('w10_paid')){const sf=localStorage.getItem('w10_formdata');if(sf)try{formData=JSON.parse(sf);}catch(e){}renderResults();return;}
   showPage('pagePaywall');
 }
 window.addEventListener('DOMContentLoaded',async()=>{
@@ -618,11 +638,22 @@ window.addEventListener('DOMContentLoaded',async()=>{
       const res=await fetch('/api/verify-payment',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({sessionId})});
       const data=await res.json();
       if(data.paid){
-        sessionStorage.setItem('w10_paid',sessionId);
+        localStorage.setItem('w10_paid',sessionId);
         window.history.replaceState({},'','/');
-        const saved=sessionStorage.getItem('w10_analysis');
-        if(saved){analysisResult=JSON.parse(saved);renderResults();}
-        else showPage('pageInput');
+        // Restore analysis from localStorage and show results immediately
+        const saved=localStorage.getItem('w10_analysis');
+        if(saved){
+          try{
+            analysisResult=JSON.parse(saved);
+            const savedForm=localStorage.getItem('w10_formdata');
+            if(savedForm) formData=JSON.parse(savedForm);
+            renderResults();
+          }catch(e){showPage('pageInput');}
+        }else{
+          // No saved analysis — show a friendly message and let them start over
+          showPage('pageInput');
+          showError('Payment confirmed! Please re-upload your report and resubmit — your results will unlock automatically.');
+        }
       }
     }catch(e){console.error(e);}
   }
@@ -642,7 +673,8 @@ function applyDiscount(){
 async function startPayment(){
   const btn=document.getElementById('payBtn');
   btn.disabled=true;btn.textContent='Redirecting to checkout...';
-  if(analysisResult)sessionStorage.setItem('w10_analysis',JSON.stringify(analysisResult));
+  if(analysisResult)localStorage.setItem('w10_analysis',JSON.stringify(analysisResult));
+  if(formData)localStorage.setItem('w10_formdata',JSON.stringify(formData));
   try{
     const res=await fetch('/api/create-checkout',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({discountCode:discountApplied?'WEALTH11':''})});
     const data=await res.json();
@@ -734,7 +766,7 @@ function renderResults(){
       <div class="sec-num">// Ready to Take Action?</div>
       <div class="cta-heading">Need Help Preparing for Funding?</div>
       <p class="cta-para">Our team specializes in building, optimizing, and positioning credit profiles for maximum business funding potential. Let us create a personalized roadmap to get you funded faster.</p>
-      <a href="mailto:info@billionairesociety.com" class="cta-btn">Book a Free Strategy Session</a>
+      <a href="mailto:support@billionnairesociety.com" class="cta-btn">Book a Free Strategy Session</a>
     </div>
     <div class="action-btns">
       <a href="/funding-opportunities.html" class="more-funding-btn">🔍 &nbsp;Click Here to See More Funding Opportunities Available for You Now</a>
@@ -754,10 +786,17 @@ function resetApp(){
   document.getElementById('resultsWrap').innerHTML='';
   document.getElementById('submitBtn').disabled=false;
   document.getElementById('submitBtn').textContent='Analyze My Funding Options →';
+  localStorage.removeItem('w10_analysis');localStorage.removeItem('w10_paid');localStorage.removeItem('w10_formdata');
   ['ls1','ls2','ls3','ls4'].forEach(id=>{const el=document.getElementById(id);if(el){el.classList.remove('active','done');}});
   document.getElementById('ls1').classList.add('active');
   showPage('pageInput');
 }
 </script>
+
+<div class="footer-links">
+  <a href="/privacy-policy.html">Privacy Policy</a>
+  <a href="/terms-of-service.html">Terms of Service</a>
+  <a href="mailto:support@billionnairesociety.com">Contact</a>
+</div>
 </body>
 </html>
